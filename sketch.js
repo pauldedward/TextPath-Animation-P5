@@ -1,9 +1,8 @@
 
-
 let font;
 let text;
-let vehicles = [];
 let points;
+let vehicles = [];
 let letterPoints = [];
 let alphaSlider;
 let fontsizeSlider;
@@ -11,6 +10,7 @@ let bgButton;
 let resetButton;
 let bgcolor = 255;
 let spacing = 20;
+let alphaValue;
 
 function preload() {
     font = loadFont("font.ttf");
@@ -18,11 +18,13 @@ function preload() {
 
 function setup() {
     createCanvas(windowWidth,windowHeight);
-    text = prompt("Enter Name of your loved one");
+    
+    text = prompt("Enter the Name of your loved one");
     if(text === null) {
         text = "Edward";
     }
     alert("Note:\nTry to touch the text.\nDouble click and hold anywhere on website to drive particles in path\nTweak the slider values and have fun");
+    
     alphaSlider = createSlider(0,255,255,5);
     alphaSlider.position(width/3,20);
     alphaSlider.style("width",width/2 + "px");
@@ -40,8 +42,20 @@ function setup() {
     resetButton.id("resetButton");
 
     resetText();
+    alphaValue = alphaSlider.value();
+
     fontsizeSlider.input(()=> resetText());
     fontsizeSlider.mousePressed(()=> resetText());
+
+    alphaSlider.input(()=> {
+        alphaValue = alphaSlider.value();
+        resetText();
+    });
+
+    alphaSlider.mousePressed(()=> {
+        alphaValue = alphaSlider.value();
+        resetText();
+    });
 
     resetButton.mousePressed(function() {
         if(vehicles[0][0]) {
@@ -65,7 +79,7 @@ function setup() {
 }
 
 function draw() {
-    let alphaValue = alphaSlider.value();
+
     background(bgcolor,alphaValue);
     for(vArray of vehicles) {
         for (v of vArray) {
