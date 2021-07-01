@@ -14,7 +14,6 @@ class Vehicle extends p5.Vector {
         this.maxForce = 1;
         this.r = sqrt(this.mass) * 16;
         this.colour = [random(255), random(255), random(255)];
-        this.strokeSize = map(size, 40, 200, 4, 14)
     }
 
     behave() {
@@ -76,7 +75,7 @@ class Vehicle extends p5.Vector {
 
     show() {
         stroke(this.colour[0], this.colour[1], this.colour[2]);
-        strokeWeight(this.strokeSize);
+        strokeWeight(strokeValue);
         point(this.x, this.y);
         // image(img, this.x, this.y);
     }

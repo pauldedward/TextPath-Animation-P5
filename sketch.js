@@ -5,12 +5,14 @@ let points;
 let vehicles = [];
 let letterPoints = [];
 let alphaSlider;
+let strokeSlider;
 let fontsizeSlider;
 let bgButton;
 let resetButton;
 let bgcolor = 255;
 let spacing = 20;
 let alphaValue;
+let strokeValue;
 
 function preload() {
     font = loadFont("font.ttf");
@@ -29,9 +31,15 @@ function setup() {
     alphaSlider.position(width/3,20);
     alphaSlider.style("width",width/2 + "px");
 
-    fontsizeSlider = createSlider(40,200,100,5);
+    let fontSliderInit =  200 / text.length;
+    fontsizeSlider = createSlider(20,200,fontSliderInit,5);
     fontsizeSlider.position(width/3,40);
     fontsizeSlider.style("width",width/2 + "px");
+
+    let strokeInit = fontSliderInit / 10;
+    strokeSlider = createSlider(1,20,strokeInit,1);
+    strokeSlider.position(width/3,60);
+    strokeSlider.style("width",width/2 + "px");
 
     bgButton = createButton("ChangeBG");
     bgButton.position(20, 20);
@@ -55,6 +63,14 @@ function setup() {
     alphaSlider.mousePressed(()=> {
         alphaValue = alphaSlider.value();
         resetText();
+    });
+
+    strokeSlider.input(()=> {
+        strokeValue = strokeSlider.value();
+    });
+
+    strokeSlider.mousePressed(()=> {
+        strokeValue = strokeSlider.value();
     });
 
     resetButton.mousePressed(function() {
@@ -107,7 +123,7 @@ function resetText() {
         vehicles = [];
         letterPoints = [];
         let cycle = 0;
-        let lastpoint = width / 8;
+        let lastpoint = width / 16;
         let fontSize = fontsizeSlider.value();
         for(letter of text) {
         letterPoints.push(font.textToPoints(letter,lastpoint + spacing, height/1.5,fontSize));
