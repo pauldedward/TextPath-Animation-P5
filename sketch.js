@@ -39,6 +39,10 @@ function setup() {
     resetButton.position(20, 60);
     resetButton.id("resetButton");
 
+    resetText();
+    fontsizeSlider.input(()=> resetText());
+    fontsizeSlider.mousePressed(()=> resetText());
+
     resetButton.mousePressed(function() {
         if(vehicles[0][0]) {
             for(vArray of vehicles) {
@@ -48,7 +52,6 @@ function setup() {
                 }
             }
         }
-       
     })
 
     bgButton.mousePressed(function() {
@@ -59,35 +62,34 @@ function setup() {
         }
     })
 
-    let cycle = 0;
-        let lastpoint = width / 8;
-        let fontSize = fontsizeSlider.value();
-        for(letter of text) {
-        letterPoints.push(font.textToPoints(letter,lastpoint + spacing, height/1.5,fontSize));
+}
 
-        if(letterPoints[cycle].length == 0) {
-            lastpoint = lastpoint + 10;
-            cycle++;
-            continue;
-            }
+function draw() {
+    let alphaValue = alphaSlider.value();
+    background(bgcolor,alphaValue);
+    for(vArray of vehicles) {
+        for (v of vArray) {
+            v.behave();
+            v.update();
+            v.show();
+        }
+    }
 
-        for(pt of letterPoints[cycle]) {
-            if(pt.x > lastpoint) {
-                lastpoint = pt.x;
-            }
+    if(frameCount % 10 == 0 && mouseIsPressed ) {
+        for(vArray of vehicles) {
+            if(vArray.length > 0) {
+                let last = vArray[0].target;
+                for(let i = 0; i < vArray.length - 1; i++) {
+                    vArray[i].target = vArray[i+1].target;
+                }
+                vArray[vArray.length - 1].target = last;
+            }   
         }
-        cycle++;
-        }
-        cycle = 0;
-        for(points of letterPoints) {
-            vehicles[cycle] = [];
-            for(pt of points) {
-                vehicles[cycle].push(new Vehicle(pt.x, pt.y, fontSize))
-            }
-            cycle++;
-        }
+        
+    }
+}
 
-    fontsizeSlider.input(function() {
+function resetText() {
         vehicles = [];
         letterPoints = [];
         let cycle = 0;
@@ -118,32 +120,4 @@ function setup() {
             }
             cycle++;
         }
-
-    });
-
-}
-
-function draw() {
-    let alphaValue = alphaSlider.value();
-    background(bgcolor,alphaValue);
-    for(vArray of vehicles) {
-        for (v of vArray) {
-            v.behave();
-            v.update();
-            v.show();
-        }
-    }
-
-    if(frameCount % 10 == 0 && mouseIsPressed ) {
-        for(vArray of vehicles) {
-            if(vArray.length > 0) {
-                let last = vArray[0].target;
-                for(let i = 0; i < vArray.length - 1; i++) {
-                    vArray[i].target = vArray[i+1].target;
-                }
-                vArray[vArray.length - 1].target = last;
-            }   
-        }
-        
-    }
 }
