@@ -51,6 +51,7 @@ function setup() {
 
     resetText();
     alphaValue = alphaSlider.value();
+    strokeValue = strokeSlider.value();
 
     fontsizeSlider.input(()=> resetText());
     fontsizeSlider.mousePressed(()=> resetText());
