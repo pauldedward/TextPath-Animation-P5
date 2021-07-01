@@ -87,7 +87,7 @@ function setup() {
             cycle++;
         }
 
-    fontsizeSlider.mouseClicked(function() {
+    fontsizeSlider.input(function() {
         vehicles = [];
         letterPoints = [];
         let cycle = 0;
